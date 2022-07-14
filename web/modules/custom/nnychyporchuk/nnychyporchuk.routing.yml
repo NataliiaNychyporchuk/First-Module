@@ -1,0 +1,7 @@
+nnychyporchuk.cats:
+  path: '/nnychyporchuk/cats'
+  defaults:
+    _controller: '\Drupal\nnychyporchuk\Controller\nnychyporchukController::build'
+    _title: 'Cats'
+  requirements:
+    _permission: 'access content'
