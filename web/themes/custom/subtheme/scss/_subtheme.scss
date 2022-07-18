@@ -1,0 +1,48 @@
+@import "variables";
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#page-wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+header.header {
+    background-color: $accent-shade;
+
+    #navbar-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+        width: 1280px;
+    }
+}
+
+.layout-main-wrapper {
+    min-height: 70vh;
+    margin-top: 20px;
+    flex: 1 1 auto;
+}
+
+.search-block-form {
+    margin-top: 10px;
+}
+
+.toast-wrapper {
+    top: 90px;
+
+    .toast {
+        opacity: 1;
+    }
+}
+
+footer.site-footer {
+    padding: 45px 0;
+    background-color: $accent-shade;
+}
