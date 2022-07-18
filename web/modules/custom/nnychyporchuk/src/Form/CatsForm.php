@@ -4,6 +4,8 @@ namespace Drupal\nnychyporchuk\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\HtmlCommand;
 
 /**
  * Configure example settings for this site.
@@ -34,6 +36,13 @@ class CatsForm extends FormBase {
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Add cat'),
+      '#ajax' => [
+        'callback' => '::AjaxFunc',
+        'progress' => array(
+          'type' => 'throbber',
+          'message' => NULL,
+        ),
+      ]
     ];
     return $form;
   }
@@ -56,4 +65,13 @@ class CatsForm extends FormBase {
     $this->messenger()->addStatus($this->t('This message has been sent'));
   }
 
+  public function AjaxFunc(array $form, FormStateInterface $form_state) {
+    $response = new AjaxResponse();
+    $response -> addCommand (
+      new HtmlCommand(
+        '.nnychyporchuk-cats',
+      $this->t('Thank you for your submission')),
+    );
+    return $response;
+  }
 }
