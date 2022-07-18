@@ -26,7 +26,6 @@ class CatsForm extends FormBase {
       '#title' => $this->t('Your cat’s name:'),
       '#required' => TRUE,
       '#description' => $this->t('Min length of the name - 2 symbols, max - 32'),
-      '#maxlength' => '32',
     ];
 
     $form['actions'] = [
@@ -42,6 +41,17 @@ class CatsForm extends FormBase {
   /**
    * {@inheritdoc}
    */
+
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    if (strlen($form_state->getValue('catName')) < 2 || strlen($form_state->getValue('catName')) > 32) {
+      $form_state->setErrorByName('catName', $this->t('This name is not valid.'));
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->messenger()->addStatus($this->t('This message has been sent'));
   }
