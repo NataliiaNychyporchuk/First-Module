@@ -11,16 +11,15 @@ namespace Drupal\nnychyporchuk\Controller;
  */
 use Drupal\Core\Controller\ControllerBase;
 
-class nnychyporchukController {
-  /**
-   * Returns a simple page.
-   *
-   * @return array
-   * A simple renderable array.
-   */
+class nnychyporchukController extends ControllerBase {
+
   public function build() {
-    return array(
-      '#markup' => 'Hello! You can add here a photo of your cat.',
-    );
+    $build['content'] = [
+      '#type' => 'item',
+      '#markup' => $this->t('Hello! You can add here a photo of your cat.'),
+    ];
+    $build['form'] = \Drupal::formBuilder() -> getForm ('\Drupal\nnychyporchuk\Form\CatsForm');
+
+    return $build;
   }
 }
