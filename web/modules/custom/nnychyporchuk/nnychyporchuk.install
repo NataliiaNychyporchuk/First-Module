@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * Implements hook_schema()
+ */
+
+function nnychyporchuk_schema() {
+  $schema['nnychyporchuk'] = array(
+    'description' => 'nnychyporchuk Database',
+    'fields' => array(
+      'id' => array(
+        'description' => 'ID',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'datetime' => array(
+        'description' => 'Timestamp',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'name' => array(
+        'description' => 'Cats name',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'email' => array(
+        'description' => 'Email of cats owner',
+        'type' => 'varchar',
+        'length' => '320',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'image' => array(
+        'description' => 'Image of the cat',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => [
+      'datetime' => ['datetime'],
+      'name' => ['name'],
+      'email' => ['email'],
+      'image' => ['image'],
+    ]
+  );
+
+  return $schema;
+}
