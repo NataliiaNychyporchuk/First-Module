@@ -46,6 +46,16 @@ class CatsForm extends FormBase {
       ],
       '#suffix' => '<span class="email-validation-message"></span>'
     ];
+    $form['imgCat'] = [
+      '#type' => 'managed_file',
+      '#title' => t('Upload your cat’s picture:'),
+      '#upload_validators' => [
+        'file_validate_extensions' => ['jpeg jpg png'],
+        'file_validate_size' => ['2097152'],
+      ],
+      '#required' => TRUE,
+      '#upload_location' => 'public://',
+    ];
 
 
     $form['actions'] = [
