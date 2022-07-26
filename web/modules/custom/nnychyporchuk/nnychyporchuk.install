@@ -1,55 +1,52 @@
 <?php
 
+use Drupal\file\Entity\File;
+
 /**
  * Implements hook_schema()
  */
 
 function nnychyporchuk_schema() {
-  $schema['nnychyporchuk'] = array(
+  $schema['nnychyporchuk'] = [
     'description' => 'nnychyporchuk Database',
-    'fields' => array(
-      'id' => array(
+    'fields' => [
+      'id' => [
         'description' => 'ID',
         'type' => 'serial',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'datetime' => array(
+      ],
+      'datetime' => [
         'description' => 'Timestamp',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
-      ),
-      'name' => array(
+      ],
+      'name' => [
         'description' => 'Cats name',
         'type' => 'varchar',
         'length' => 32,
         'not null' => TRUE,
         'default' => '',
-      ),
-      'email' => array(
+      ],
+      'email' => [
         'description' => 'Email of cats owner',
         'type' => 'varchar',
-        'length' => '320',
+        'length' => 320,
         'not null' => TRUE,
         'default' => '',
-      ),
-      'image' => array(
+      ],
+      'image' => [
         'description' => 'Image of the cat',
         'type' => 'varchar',
+        'length' => 320,
         'not null' => TRUE,
         'default' => '',
-      ),
-    ),
-    'primary key' => array('id'),
-    'indexes' => [
-      'datetime' => ['datetime'],
-      'name' => ['name'],
-      'email' => ['email'],
-      'image' => ['image'],
-    ]
-  );
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
 
   return $schema;
 }

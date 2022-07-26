@@ -18,7 +18,9 @@ class nnychyporchukController extends ControllerBase {
       '#type' => 'item',
       '#markup' => $this->t('Hello! You can add here a photo of your cat.'),
     ];
-    $build['form'] = \Drupal::formBuilder() -> getForm ('\Drupal\nnychyporchuk\Form\CatsForm');
+    $build['form'] = \Drupal::formBuilder()->getForm(
+      '\Drupal\nnychyporchuk\Form\CatsForm'
+    );
 
     return $build;
   }

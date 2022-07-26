@@ -39,10 +39,10 @@ class CatsForm extends FormBase {
       '#ajax' => [
         'callback' => ':validateEmailAjax',
         'event' => 'change',
-        'progress' => array(
+        'progress' => [
           'type' => 'throbber',
           'message' => NULL,
-        ),
+        ],
       ],
       '#suffix' => '<span class="email-validation-message"></span>'
     ];
@@ -54,7 +54,7 @@ class CatsForm extends FormBase {
         'file_validate_size' => ['2097152'],
       ],
       '#required' => TRUE,
-      '#upload_location' => 'public://',
+      //'#upload_location' => 'public://',
     ];
 
 
@@ -96,7 +96,7 @@ class CatsForm extends FormBase {
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-  }
+    }
 
   public function validateEmailAjax(array $form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
@@ -125,8 +125,8 @@ class CatsForm extends FormBase {
     else {
       $response->addCommand(
         new HtmlCommand(
-        '.nnychyporchuk-cats',
-        $this->t('Thank you for submission!')));
+          '.nnychyporchuk-cats',
+          $this->t('Thank you for submission!')));
     }
     \Drupal::messenger()->deleteAll();
     return $response;
