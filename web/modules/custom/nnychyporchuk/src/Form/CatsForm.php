@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\MessageCommand;
+use Drupal\file\Entity\File;
 
 /**
  * Configure example settings for this site.
@@ -37,7 +38,7 @@ class CatsForm extends FormBase {
       '#description' => $this->t('Only latin characters, underscore or hyphen may be used'),
       '#required' => TRUE,
       '#ajax' => [
-        'callback' => ':validateEmailAjax',
+        'callback' => '::validateEmailAjax',
         'event' => 'change',
         'progress' => [
           'type' => 'throbber',
@@ -92,11 +93,27 @@ class CatsForm extends FormBase {
 
   /**
    * {@inheritdoc}
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   * @throws \Exception
    */
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-
+    $image_id = $form_state->getValue('imgCat');
+    $database = \Drupal::database();
+    if ($image_id) {
+      $file = File::load($image_id[0]);
+      $file->setPermanent();
+      $file->save();
     }
+    $database->insert('nnychyporchuk')->fields(['name','datetime', 'email', 'image'])
+      ->values([
+      'name' => $form_state->getValue('catName'),
+      'datetime' =>  \Drupal::time()->getCurrentTime(),
+      'email' => $form_state->getValue('email'),
+      'image' => $image_id[0],
+    ])
+      ->execute();
+  }
 
   public function validateEmailAjax(array $form, FormStateInterface $form_state) {
     $response = new AjaxResponse();

@@ -1,1 +1,14 @@
 <?php
+
+/**
+ * Implements hook_theme()
+ */
+function nnychyporchuk_theme($existing, $type, $theme, $path) {
+  return [
+    'nnychyporchuk_theme_hook' => [
+      'variables' => [
+        'cats' => NULL
+      ]
+    ]
+  ];
+    }
