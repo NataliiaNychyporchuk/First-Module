@@ -7,13 +7,17 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\MessageCommand;
-use Drupal\file\Entity\File;
+use Drupal\Core\Url;
+use Drupal\nnychyporchuk\Controller\nnychyporchukController as nnychyporchukController;
 
 /**
  * Configure example settings for this site.
  */
 class CatsForm extends FormBase {
 
+  protected $id;
+
+  protected $cat;
   /**
    * {@inheritdoc}
    */
@@ -24,12 +28,17 @@ class CatsForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
+    $this->id = $id;
+    if (!is_null($id)) {
+      $this->cat = nnychyporchukController::getCats($this->id)[0];
+    }
     $form['catName'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Your cat’s name:'),
       '#required' => TRUE,
       '#description' => $this->t('Min length of the name - 2 symbols, max - 32'),
+      '#default_value' => $this->cat ? $this->cat->name : "",
     ];
 
     $form['email'] = [
@@ -45,6 +54,7 @@ class CatsForm extends FormBase {
           'message' => NULL,
         ],
       ],
+      '#default_value' => $this->cat ? $this->cat->email : "",
       '#suffix' => '<span class="email-validation-message"></span>'
     ];
     $form['imgCat'] = [
@@ -56,8 +66,8 @@ class CatsForm extends FormBase {
       ],
       '#required' => TRUE,
       //'#upload_location' => 'public://',
+      '#default_value' => $this->cat ? [$this->cat->picture_id] : "",
     ];
-
 
     $form['actions'] = [
       '#type' => 'actions',
@@ -93,26 +103,22 @@ class CatsForm extends FormBase {
 
   /**
    * {@inheritdoc}
-   * @throws \Drupal\Core\Entity\EntityStorageException
    * @throws \Exception
    */
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $image_id = $form_state->getValue('imgCat');
-    $database = \Drupal::database();
-    if ($image_id) {
-      $file = File::load($image_id[0]);
-      $file->setPermanent();
-      $file->save();
+    $new_cat = new \stdClass();
+    $new_cat->name = $form_state->getValue('catName');
+    $new_cat->email = $form_state->getValue('email');
+    $new_cat->image = $form_state->getValue('imgCat')[0];
+    if (!is_null($this->id)) {
+      $new_cat->id = $this->id;
+      nnychyporchukController::editCat($new_cat);
     }
-    $database->insert('nnychyporchuk')->fields(['name','datetime', 'email', 'image'])
-      ->values([
-      'name' => $form_state->getValue('catName'),
-      'datetime' =>  \Drupal::time()->getCurrentTime(),
-      'email' => $form_state->getValue('email'),
-      'image' => $image_id[0],
-    ])
-      ->execute();
+    else {
+      nnychyporchukController::saveCat($new_cat);
+    }
+    $form_state->setRedirectUrl(Url::fromRoute('nnychyporchuk.cats'));
   }
 
   public function validateEmailAjax(array $form, FormStateInterface $form_state) {
@@ -148,4 +154,5 @@ class CatsForm extends FormBase {
     \Drupal::messenger()->deleteAll();
     return $response;
   }
+
 }

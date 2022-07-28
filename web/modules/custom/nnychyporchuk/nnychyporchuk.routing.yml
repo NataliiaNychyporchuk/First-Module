@@ -9,7 +9,15 @@ nnychyporchuk.cats:
 nnychyporchuk.delete_form:
   path: '/nnychyporchuk/cats/{id}/delete'
   defaults:
-    _form: \Drupal\nnychyporchuk\Form\DeleteForm
+    _form: '\Drupal\nnychyporchuk\Form\DeleteForm'
     _title: 'Delete Confirmation'
+  requirements:
+    _permission: 'administer nnychyporchuk'
+
+nnychyporchuk.edit_form:
+  path: '/nnychyporchuk/cats/{id}/edit'
+  defaults:
+    _form: '\Drupal\nnychyporchuk\Form\CatsForm'
+    _title: 'Edit'
   requirements:
     _permission: 'administer nnychyporchuk'
