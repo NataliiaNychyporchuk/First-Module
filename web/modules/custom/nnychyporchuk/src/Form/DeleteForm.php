@@ -13,8 +13,14 @@ use Drupal\file\Entity\File;
 /**
  * Class DeleteForm
  */
-
 class DeleteForm extends ConfirmFormBase {
+
+  /**
+   * ID of the item to delete.
+   *
+   */
+  protected $id;
+
   /**
    * {@inheritdoc}
    */
@@ -30,6 +36,9 @@ class DeleteForm extends ConfirmFormBase {
     return parent::buildForm($form, $form_state);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $connection = \Drupal::service('database');
     $query = $connection->select('nnychyporchuk', 'n');
@@ -46,14 +55,23 @@ class DeleteForm extends ConfirmFormBase {
     $form_state->setRedirectUrl(Url::fromRoute('nnychyporchuk.cats'));
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getFormId() : string {
     return "confirm_delete_form";
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getCancelUrl() {
     return new Url('nnychyporchuk.cats');
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getQuestion() {
     // TODO: Implement getQuestion() method.
     return $this->t('Do you want to delete id%id cat?', ['%id' => $this->id]);

@@ -1,5 +1,16 @@
 {#
-
+/**
+ * @file
+ * nnychyporchuk module item twig template.
+ *
+Variables:
+ * - cat: cat object.
+ * - cat.picture_src: picture of the cat.
+ * - cat.created: time when cat was created.
+ * - cat.name: name of the cat.
+ * - cat.email: email of cat's owner.
+ * - cat.id: id of the cat.
+ */
 #}
 
 {% if cats is not empty %}
@@ -13,6 +24,20 @@
           <span class="created-date">{{ "Cat was added"|t }}: {{ cat.created|date("j/m/Y H:i:s") }}</span>
           <span>{{ "Cat's name"|t }}: {{ cat.name }}</span>
           <span>{{ "Cat's owner email"|t }}: {{ cat.email }}</span>
+          {% if user.hasPermission('administer nnychyporchuk') %}
+            <div class="cats-btn" role="group">
+              <a class="btn btn-outline-danger use-ajax"
+                 data-dialog-options="{&quot;width&quot;:400}"
+                 data-dialog-type="modal"
+                 type="button"
+                 href="/nnychyporchuk/cats/{{ cat.id }}/delete">{{ "Delete cat entity"|t }}</a>
+              <a class="btn btn-outline-warning use-ajax"
+                 data-dialog-options="{&quot;width&quot;:400}"
+                 data-dialog-type="modal"
+                 type="button"
+                 href="/nnychyporchuk/cats/{{ cat.id }}/edit">{{ "Edit cat entity"|t }}</a>
+            </div>
+          {% endif %}
         </div>
       </li>
     {% endfor %}

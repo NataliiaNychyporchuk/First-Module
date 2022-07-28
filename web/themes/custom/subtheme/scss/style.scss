@@ -87,6 +87,10 @@ a {
         .cat-information {
             display: flex;
             flex-direction: column;
+
+            .cats-btn {
+                margin-top: 20px;
+            }
         }
     }
 }
