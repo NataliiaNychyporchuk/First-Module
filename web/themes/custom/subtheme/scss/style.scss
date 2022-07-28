@@ -55,6 +55,38 @@ a {
     width: 100%;
 }
 
-.slick>div {
+.slick > div {
     margin: 0 15px;
+}
+
+.cats-container {
+    list-style: none;
+
+    .cats-module {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+        margin: 20px 0;
+        border: 2px solid $black;
+        border-radius: 10px;
+        padding: 20px;
+
+        .img-container {
+            width: 20%;
+            min-width: 200px;
+            height: fit-content;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .cat-information {
+            display: flex;
+            flex-direction: column;
+        }
+    }
 }

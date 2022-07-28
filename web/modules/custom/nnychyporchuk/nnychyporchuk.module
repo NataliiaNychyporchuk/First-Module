@@ -5,11 +5,12 @@
  */
 function nnychyporchuk_theme($existing, $type, $theme, $path) {
   return [
-    'nnychyporchuk_theme_hook' => [
-      'variables' => [
-        'cats' => NULL
+    "nnychyporchuk_theme_hook" => [
+      "variables" => [
+        'form' => NULL,
+        'cats' => NULL,
       ],
       'template' => 'cats-module'
     ],
   ];
-    }
+}

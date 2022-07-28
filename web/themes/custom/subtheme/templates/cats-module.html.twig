@@ -1,0 +1,20 @@
+{#
+
+#}
+
+{% if cats is not empty %}
+  <ul class="cats-container">
+    {% for cat in cats %}
+      <li class="cats-module">
+        <a href="{{ cat.picture_src }}" target="_blank" class="img-container">
+          <img src="{{ cat.picture_src }}" alt="A Cat">
+        </a>
+        <div class="cat-information">
+          <span class="created-date">{{ "Cat was added"|t }}: {{ cat.created|date("j/m/Y H:i:s") }}</span>
+          <span>{{ "Cat's name"|t }}: {{ cat.name }}</span>
+          <span>{{ "Cat's owner email"|t }}: {{ cat.email }}</span>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

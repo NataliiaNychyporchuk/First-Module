@@ -16,16 +16,16 @@ class nnychyporchukController extends ControllerBase {
 
   public function build() {
     $cats = $this->getCats();
-    $build = [
-      'content' => [
-        '#type' => 'item',
-        '#markup' => $this->t('Hello! You can add here a photo of your cat.')
-      ],
-    'form' => \Drupal::formBuilder()->getForm('\Drupal\nnychyporchuk\Form\CatsForm'),
-    'cats' => [
+    $build['content'] = [
+      '#type' => 'item',
+      '#markup' => $this->t('Hello! You can add here a photo of your cat.'),
+    ];
+    $build['form'] = \Drupal::formBuilder()->getForm(
+      '\Drupal\nnychyporchuk\Form\CatsForm'
+    );
+    $build['cats'] = [
       '#theme' => 'nnychyporchuk_theme_hook',
-      '#cats' => $cats,
-      ],
+      '#cats' => '$cats',
       ];
     return $build;
   }
