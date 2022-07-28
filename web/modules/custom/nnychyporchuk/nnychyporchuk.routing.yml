@@ -6,3 +6,10 @@ nnychyporchuk.cats:
   requirements:
     _permission: 'access content'
 
+nnychyporchuk.delete_form:
+  path: '/nnychyporchuk/cats/{id}/delete'
+  defaults:
+    _form: \Drupal\nnychyporchuk\Form\DeleteForm
+    _title: 'Delete Confirmation'
+  requirements:
+    _permission: 'administer nnychyporchuk'

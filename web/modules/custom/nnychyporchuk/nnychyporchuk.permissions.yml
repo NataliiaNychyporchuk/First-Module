@@ -1,0 +1,4 @@
+administer nnychyporchuk:
+  title: 'Administer nnychyporchuk'
+  description: 'Allow admin edit and delete cats'
+  restrict access: TRUE
