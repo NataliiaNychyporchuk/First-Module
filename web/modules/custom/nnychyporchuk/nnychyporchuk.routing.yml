@@ -21,3 +21,11 @@ nnychyporchuk.edit_form:
     _title: 'Edit'
   requirements:
     _permission: 'administer nnychyporchuk'
+
+nnychyporchuk.cats_list:
+  path: '/admin/structure/cats'
+  defaults:
+    _form: '\Drupal\nnychyporchuk\Form\AdminForm'
+    _title: 'Cats List Admin Page'
+  requirements:
+    _permission: 'administer nnychyporchuk'

@@ -1,0 +1,6 @@
+nnychyporchuk.admin:
+  title: Cats
+  description: Administer of the cats.
+  parent: system.admin_structure
+  route_name: nnychyporchuk.cats_list
+  weight: 10
