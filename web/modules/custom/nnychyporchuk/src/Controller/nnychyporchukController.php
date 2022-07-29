@@ -10,22 +10,37 @@ namespace Drupal\nnychyporchuk\Controller;
  * Provides route responses for the nnychyporchuk module
  */
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\file\Entity\File;
+use Drupal\file\Entity\File as File;
+use Drupal\Core\Url as Url;
 
 class nnychyporchukController extends ControllerBase {
 
   public function build() {
-    $build['content'] = [
-      '#type' => 'item',
-      '#markup' => $this->t('Hello! You can add here a photo of your cat.'),
+    $cats = $this->getCats();
+    $build = [
+      'content' => [
+        '#type' => 'item',
+        '#markup' => $this->t('Hello! You can add here a photo of your cat.'),
+      ],
+      'form' => \Drupal::formBuilder()->getForm('\Drupal\nnychyporchuk\Form\CatsForm'),
+      'cats' => [
+        '#theme' => 'nnychyporchuk_theme_hook',
+        '#cats' => $cats,
+      ],
     ];
-    $build['form'] = \Drupal::formBuilder()->getForm(
-      '\Drupal\nnychyporchuk\Form\CatsForm'
-    );
-    $build['cats'] = [
-      '#theme' => 'nnychyporchuk_theme_hook',
-    ];
+    $renderer = \Drupal::service('renderer');
+    foreach ($cats as &$cat) {
+      $buttons = [
+        '#theme' => 'nnychyporchuk_buttons_cat',
+        '#id' => $cat->id,
+      ];
+      $cat->cats_button = $renderer->render($buttons);
+    }
     return $build;
+  }
+
+  public static function getRouteName(): string {
+    return 'nnychyporchuk.cats';
   }
 
   public static function getCats() {
@@ -35,31 +50,12 @@ class nnychyporchukController extends ControllerBase {
       ->orderBy('id', 'DESC')
       ->execute()->fetchAll();
 
-    $data = [];
+    foreach ($result as $item) {
+      $fid = $item->image? $item->image : 0;
 
-    foreach ($result as $row) {
-      $file = File::load($row->image);
-      $uri = $file->getFileUri();
-      $imgCat = [
-        '#theme' => 'image',
-        '#uri' => $uri,
-        '#alt' => 'Cat',
-        '#width' => 125,
-      ];
-      $data[] = [
-        'name' => $row->name,
-        'email' => $row->email,
-        'image' => [
-          'data' => $imgCat,
-        ],
-        'datetime' => $row->datetime,
-      ];
     }
-    $build['table'] = [
-      '#type' => 'table',
-      '#rows' => $data,
-    ];
-    return $build;
+    return $result;
+
   }
 
   /**

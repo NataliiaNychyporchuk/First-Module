@@ -7,10 +7,15 @@ function nnychyporchuk_theme($existing, $type, $theme, $path) {
   return [
     "nnychyporchuk_theme_hook" => [
       "variables" => [
-        'form' => NULL,
         'cats' => NULL,
       ],
       'template' => 'cats-module'
+    ],
+    'nnychyporchuk_buttons_cat' => [
+      'variables' => [
+        'id' => NULL,
+      ],
+      'template' => 'cat-buttons',
     ],
   ];
 }
