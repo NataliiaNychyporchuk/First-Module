@@ -8,6 +8,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\file\Entity\File;
+use Drupal\nnychyporchuk\Controller\nnychyporchukController as nnychyporchukController;
 
 
 /**
@@ -40,18 +41,7 @@ class DeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $connection = \Drupal::service('database');
-    $query = $connection->select('nnychyporchuk', 'n');
-    $query->condition('id', $this->id);
-    $query->fields('n', ['image']);
-    $fid = $query->execute()->fetchAll()[0]->picture_id;
-    if ($fid != "0") {
-      $file = File::load($fid);
-      $file->delete();
-    }
-    $cat_deleted = $connection->delete('nnychyporchuk')
-      ->condition('id', $this->id)
-      ->execute();
+    nnychyporchukController::deleteCat([$this->id]);
     $form_state->setRedirectUrl(Url::fromRoute('nnychyporchuk.cats'));
   }
 

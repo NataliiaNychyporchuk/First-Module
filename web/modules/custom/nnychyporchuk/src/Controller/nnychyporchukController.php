@@ -103,6 +103,27 @@ class nnychyporchukController extends ControllerBase {
       ->execute();
   }
 
+  public static function deleteCat(array $id = []) {
+    if (empty($id)) {
+      return;
+    }
+    $connection = \Drupal::service('database');
+    $query = $connection->select('nnychyporchuk', 'n');
+    $query->condition('id', $id);
+    $query->fields('n', ['image']);
+    $result = $query->execute()->fetchAll();
+    foreach ($result as $item) {
+      $fid = $item->image;
+      if ($fid != "0") {
+        $file = File::load($fid);
+        $file->delete();
+      }
+    }
+    $cat_deleted = $connection->delete('nnychyporchuk')
+      ->condition('id', $id)
+      ->execute();
+  }
+
   /**
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
@@ -111,6 +132,5 @@ class nnychyporchukController extends ControllerBase {
     $file->setPermanent();
     $file->save();
   }
-
 
 }
